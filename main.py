@@ -5,8 +5,7 @@ import graph
 import lagrange
 import newton
 
-x = float(input("Я хочу чтобы мне посчитали значение в точке: "))
-n = int(input("С количеством точек (5-10): "))
+n = int(input("Я хочу вот такое количество точек (5-10): "))
 if n < 5 or n > 10:
 	print("Значение вне диапазона")
 	sys.exit(-1)
@@ -40,7 +39,9 @@ else:
 	for i in range(n):
 		x_arr.append(x0 + h * i)
 		y_arr.append(fn(x0 + h * i))
-
+x = float(input("Я хочу чтобы мне посчитали значение в точке: "))
+if x > x_arr[-1] or x < x_arr[0]:
+	print("Внимание! икс лежит вне заданного диапазона")
 graph.create_plot()
 graph.add_points(x_arr, y_arr, color='black')
 fixed_h = True
