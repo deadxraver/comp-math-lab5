@@ -41,10 +41,12 @@ else:
 	for i in range(n):
 		x_arr.append(x0 + h * i)
 		y_arr.append(fn(x0 + h * i))
-	graph.add_function(fn, [x_arr[0] - 1, x_arr[-1] + 1], label='Исходная функция')
+	graph.add_function(fn, [x_arr[0], x_arr[-1]], label='Исходная функция')
 x = float(input("Я хочу чтобы мне посчитали значение в точке: "))
 if x > x_arr[-1] or x < x_arr[0]:
 	print("Внимание! икс лежит вне заданного диапазона, не будем интерполировать")
+	print(f'x = {x}')
+	print(f'Точки: {x_arr}')
 	sys.exit(-1)
 
 graph.add_points(x_arr, y_arr, color='black')
@@ -54,11 +56,11 @@ for i in range(n - 1):
 	if abs(x_arr[i + 1] - x_arr[i] - h) > 0.0001:
 		fixed_h = False
 		break
-interval = [x_arr[0] - 1, x_arr[-1] + 1]
+interval = [x_arr[0], x_arr[-1]]
 if fixed_h:
 	print("Отлично! У нас фиксированный шаг, можем использовать неразделенные разности!!!")
+	dot = newton.N_non_sep(x, x_arr, y_arr, print_deltas=True)
 	graph.add_function(lambda x: newton.N_non_sep(x, x_arr, y_arr), interval, label="Неразделенные разности")
-	dot = newton.N_non_sep(x, x_arr, y_arr)
 	print(f"Значение рассчитанное по неразделенным: {dot}")
 	graph.add_points([x], [dot], label="Неразделенные", color="green")
 
