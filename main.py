@@ -1,27 +1,68 @@
+import math
+import sys
+
+import graph
 import lagrange
 import newton
 
-x_arr = [
-	0.25,
-	0.30,
-	0.35,
-	0.40,
-	0.45,
-	0.50,
-	0.55,
-]
+x = float(input("Я хочу чтобы мне посчитали значение в точке: "))
+n = int(input("С количеством точек (5-10): "))
+if n < 5 or n > 10:
+	print("Значение вне диапазона")
+	sys.exit(-1)
+arr_type = int(input("1 - по произвольным точкам, 2 - с фиксированным шагом, 3 - используя готовую функцию"))
+x_arr = []
+y_arr = []
+if arr_type == 1:
+	print("Начинаем вводить точки:")
+	for i in range(n):
+		x_i, y_i = map(float, input().split())
+		x_arr.append(x_i)
+		y_arr.append(y_i)
+elif arr_type == 2:
+	x0 = float(input("Введите начальный икс: "))
+	h = float(input("И шаг: "))
+	print("Начинайте вводить игреки:")
+	for i in range(n):
+		x_arr.append(x0 + h * i)
+		y_arr.append(float(input()))
+else:
+	fn = int(input("Выберите функцию (1 - sinx, 2 - x^2): "))
+	if fn == 1:
+		fn = lambda x: math.sin(x)
+	elif fn == 2:
+		fn = lambda x: x ** 2
+	else:
+		print("Вне диапазона!")
+		sys.exit(-1)
+	h = float(input("Введите шаг: "))
+	for i in range(n):
+		x_arr.append(x + h * i)
+		y_arr.append(fn(x + h * i))
 
-y_arr = [
-	1.2557,
-	2.1764,
-	3.1218,
-	4.0482,
-	5.9875,
-	6.9195,
-	7.8359,
-]
-x = 0.534
-# x = 0.384
-print(lagrange.L(x, x_arr, y_arr))
-print(newton.N_sep(x, x_arr, y_arr))
-print(newton.N_non_sep(x, x_arr, y_arr))
+graph.create_plot()
+graph.add_points(x_arr, y_arr, color='black')
+fixed_h = True
+h = x_arr[1] - x_arr[0]
+for i in range(n - 1):
+	if x_arr[i + 1] - x_arr[i] != h:
+		fixed_h = False
+		break
+if fixed_h:
+	print("Отлично! У нас фиксированный шаг, можем использовать неразделенные разности!!!")
+	graph.add_function(lambda x: newton.N_non_sep(x, x_arr, y_arr), [x_arr[0] - 5, x_arr[-1] + 5], label="Неразделенные разности")
+	dot = newton.N_non_sep(x, x_arr, y_arr)
+	print(f"Значение рассчитанное по неразделенным: {dot}")
+	graph.add_points([x], [dot], label="Неразделенные", color="green")
+
+graph.add_function(lambda x: newton.N_sep(x, x_arr, y_arr), [x_arr[0] - 5, x_arr[-1] + 5], label="Разделенные разности")
+dot = newton.N_sep(x, x_arr, y_arr)
+print(f"Значение рассчитанное по Ньютону: {dot}")
+graph.add_points([x], [dot], label="Разделенные", color="blue")
+
+graph.add_function(lambda x: lagrange.L(x, x_arr, y_arr), [x_arr[0] - 5, x_arr[-1] + 5], label="Лагранж")
+dot = lagrange.L(x, x_arr, y_arr)
+print(f"Значение рассчитанное по Лагранжу: {dot}")
+graph.add_points([x], [dot], label="Лагранж", color="yellow")
+
+graph.show()
