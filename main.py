@@ -58,11 +58,11 @@ for i in range(n - 1):
 		break
 interval = [x_arr[0], x_arr[-1]]
 if fixed_h:
-	print("Отлично! У нас фиксированный шаг, можем использовать неразделенные разности!!!")
+	print("Отлично! У нас фиксированный шаг, можем использовать конечные разности!!!")
 	dot = newton.N_non_sep(x, x_arr, y_arr, print_deltas=True)
 	graph.add_function(lambda x: newton.N_non_sep(x, x_arr, y_arr), interval, label="Неразделенные разности")
-	print(f"Значение рассчитанное по неразделенным: {dot}")
-	graph.add_points([x], [dot], label="Неразделенные", color="green")
+	print(f"Значение рассчитанное по конечным: {dot}")
+	graph.add_points([x], [dot], label="Конечные", color="green")
 
 graph.add_function(lambda x: newton.N_sep(x, x_arr, y_arr), interval, label="Разделенные разности")
 dot = newton.N_sep(x, x_arr, y_arr)
