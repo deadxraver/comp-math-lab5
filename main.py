@@ -1,4 +1,5 @@
 import lagrange
+import newton
 
 x_arr = [
 	0.25,
@@ -22,3 +23,4 @@ y_arr = [
 x = 0.534
 # x = 0.384
 print(lagrange.L(x, x_arr, y_arr))
+print(newton.N_sep(x, x_arr, y_arr))
