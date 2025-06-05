@@ -49,19 +49,20 @@ for i in range(n - 1):
 	if x_arr[i + 1] - x_arr[i] != h:
 		fixed_h = False
 		break
+interval = [x_arr[0] - 1, x_arr[-1] + 1]
 if fixed_h:
 	print("Отлично! У нас фиксированный шаг, можем использовать неразделенные разности!!!")
-	graph.add_function(lambda x: newton.N_non_sep(x, x_arr, y_arr), [x_arr[0], x_arr[-1]], label="Неразделенные разности")
+	graph.add_function(lambda x: newton.N_non_sep(x, x_arr, y_arr), interval, label="Неразделенные разности")
 	dot = newton.N_non_sep(x, x_arr, y_arr)
 	print(f"Значение рассчитанное по неразделенным: {dot}")
 	graph.add_points([x], [dot], label="Неразделенные", color="green")
 
-graph.add_function(lambda x: newton.N_sep(x, x_arr, y_arr), [x_arr[0], x_arr[-1]], label="Разделенные разности")
+graph.add_function(lambda x: newton.N_sep(x, x_arr, y_arr), interval, label="Разделенные разности")
 dot = newton.N_sep(x, x_arr, y_arr)
 print(f"Значение рассчитанное по Ньютону: {dot}")
 graph.add_points([x], [dot], label="Разделенные", color="blue")
 
-graph.add_function(lambda x: lagrange.L(x, x_arr, y_arr), [x_arr[0], x_arr[-1]], label="Лагранж")
+graph.add_function(lambda x: lagrange.L(x, x_arr, y_arr), interval, label="Лагранж")
 dot = lagrange.L(x, x_arr, y_arr)
 print(f"Значение рассчитанное по Лагранжу: {dot}")
 graph.add_points([x], [dot], label="Лагранж", color="yellow")
