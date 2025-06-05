@@ -41,7 +41,8 @@ else:
 		y_arr.append(fn(x0 + h * i))
 x = float(input("Я хочу чтобы мне посчитали значение в точке: "))
 if x > x_arr[-1] or x < x_arr[0]:
-	print("Внимание! икс лежит вне заданного диапазона")
+	print("Внимание! икс лежит вне заданного диапазона, не будем интерполировать")
+	sys.exit(-1)
 graph.create_plot()
 graph.add_points(x_arr, y_arr, color='black')
 fixed_h = True
