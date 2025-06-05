@@ -41,6 +41,5 @@ def add_points(x_arr, y_arr, label=None, color='red', marker_size=100):
 
 
 def show():
-	plt.title('Графики приближений')
 	plt.legend()
 	plt.show()
